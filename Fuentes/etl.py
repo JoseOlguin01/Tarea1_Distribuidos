@@ -1,14 +1,17 @@
-#-------------------------------------------------------
+# -------------------------------------------------------
 # Load Data from File: KDDTrain.txt
-#--------------------------------------------------------
+# --------------------------------------------------------
 
-import numpy   as np
-import pandas  as pd
-#import utility_etl  as ut
+import numpy as np
+import pandas as pd
+# import utility_etl  as ut
 
 # Cargar parametros de config.csv
+
+
 def config():
-    config = pd.read_csv('config.csv',header=None)
+    config = pd.read_csv(
+        r'D:\Codigos\Universidad\Sistema Distribuido\github\Tarea1_Distribuidos\config.csv', header=None)
     parameters = config.values
     # Línea 1: Dimensión embebida (m) de DE.
     m = parameters[0][0]
@@ -22,23 +25,54 @@ def config():
     sigma = parameters[4][0]
     # Línea 6: Top-K variables menos redundantes.
     vMRK = parameters[5][0]
-    
+
 # Beginning ...
+
+
 def main():
     config()
-    data=pd.read_csv(r'D:\Codigos\Universidad\Sistema Distribuido\Eva3\Codigo\DATA\KDDTrain.txt',header=None)
-    # asignar valores numericos a las variables categoricas
-    data[1]=data[1].astype('category').cat.codes
-    data[2]=data[2].astype('category').cat.codes
-    data[3]=data[3].astype('category').cat.codes
-    data[41]=data[41].astype('category').cat.codes
-    print(data)
-    print(data[1].unique())
-    print(data[2].unique())
-    print(data[3].unique())
-    print(data[41].unique())
+    data = pd.read_csv(
+        r'D:\Codigos\Universidad\Sistema Distribuido\github\Tarea1_Distribuidos\DATA\KDDTrain.txt', header=None)
+    # Listados de las clases
+    Clase1 = ['normal']
+    Clase2 = ['neptune', 'teardrop', 'smurf', 'pod', 'back', 'land', 'apache2',
+              'processtable', 'mailbomb', 'udpstorm']
+    Clase3 = ['ipsweep', 'portsweep', 'nmap', 'satan', 'saint', 'mscan']
+    # Listado de  protocolos
+    protocolos = ['tcp', 'udp', 'icmp']
+    # Listado de servicios
+    servicios = ['ftp_data', 'other', 'private', 'http', 'remote_job', 'name', 'netbios_ns'
+                 'eco_i', 'mtp', 'telnet', 'finger', 'domain_u', 'supdup', 'uucp_path', 'Z39_50'
+                 'smtp', 'csnet_ns', 'uucp', 'netbios_dgm', 'urp_i', 'auth', 'domain', 'ftp'
+                 'bgp', 'ldap', 'ecr_i', 'gopher', 'vmnet', 'systat', 'http_443', 'efs', 'whois'
+                 'imap4', 'iso_tsap', 'echo', 'klogin', 'link', 'sunrpc', 'login', 'kshell'
+                 'sql_net', 'time', 'hostnames', 'exec', 'ntp_u', 'discard', 'nntp', 'courier'
+                 'ctf', 'ssh', 'daytime', 'shell', 'netstat', 'pop_3', 'nnsp', 'IRC', 'pop_2'
+                 'printer', 'tim_i', 'pm_dump', 'red_i', 'netbios_ssn', 'rje', 'X11', 'urh_i'
+                 'http_8001']
+
+    # Listado de flags
+    flags = ['SF', 'S0', 'REJ', 'RSTR', 'SH', 'RSTO', 'S1', 'RSTOS0', 'S3', 'S2', 'OTH']
+
+
+    # Paso 1
+    # Paso 1.1: Transformar los datos originales en formato numérico.
+    data = data.replace(Clase1, 1)
+    data = data.replace(Clase2, 2)
+    data = data.replace(Clase3, 3)
+    for i in range(len(protocolos)):
+        data = data.replace(protocolos[i], i+1)
+    for i in range(len(servicios)):
+        data = data.replace(servicios[i], i+1)
+    for i in range(len(flags)):
+        data = data.replace(flags[i], i+1)
     
 
-if __name__ == '__main__':   
-	 main()
+    # print primera fila 
+    print(data.head(1))
 
+
+
+
+if __name__ == '__main__':
+    main()
