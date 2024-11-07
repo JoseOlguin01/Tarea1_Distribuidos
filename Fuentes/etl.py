@@ -76,8 +76,19 @@ def main():
 
     # Paso 1.3: Crear archivo Data.csv
     data.to_csv('DATA/Data.csv', index=False)
-    
 
+    # Paso 3
+    # Crear tres nuevos archivos de datos, uno para cada clase.
+    clasese1 = data[data[41] == 1]
+    # Crear classe1.csv
+    clasese1.to_csv('DATA/classe1.csv', index=False)
+    # Crear classe2.csv
+    clasese2 = data[data[41] == 2]
+    clasese2.to_csv('DATA/classe2.csv', index=False)
+    # Crear classe3.csv
+    clasese3 = data[data[41] == 3]
+    clasese3.to_csv('DATA/classe3.csv', index=False)
+    
     # print primera fila 
     print(data.head(1))
 
