@@ -41,14 +41,14 @@ def main():
     # Listado de  protocolos
     protocolos = ['tcp', 'udp', 'icmp']
     # Listado de servicios
-    servicios = ['ftp_data', 'other', 'private', 'http', 'remote_job', 'name', 'netbios_ns'
-                 'eco_i', 'mtp', 'telnet', 'finger', 'domain_u', 'supdup', 'uucp_path', 'Z39_50'
-                 'smtp', 'csnet_ns', 'uucp', 'netbios_dgm', 'urp_i', 'auth', 'domain', 'ftp'
-                 'bgp', 'ldap', 'ecr_i', 'gopher', 'vmnet', 'systat', 'http_443', 'efs', 'whois'
-                 'imap4', 'iso_tsap', 'echo', 'klogin', 'link', 'sunrpc', 'login', 'kshell'
-                 'sql_net', 'time', 'hostnames', 'exec', 'ntp_u', 'discard', 'nntp', 'courier'
-                 'ctf', 'ssh', 'daytime', 'shell', 'netstat', 'pop_3', 'nnsp', 'IRC', 'pop_2'
-                 'printer', 'tim_i', 'pm_dump', 'red_i', 'netbios_ssn', 'rje', 'X11', 'urh_i'
+    servicios = ['ftp_data', 'other', 'private', 'http', 'remote_job', 'name', 'netbios_ns',
+                 'eco_i', 'mtp', 'telnet', 'finger', 'domain_u', 'supdup', 'uucp_path', 'Z39_50',
+                 'smtp', 'csnet_ns', 'uucp', 'netbios_dgm', 'urp_i', 'auth', 'domain', 'ftp',
+                 'bgp', 'ldap', 'ecr_i', 'gopher', 'vmnet', 'systat', 'http_443', 'efs', 'whois',
+                 'imap4', 'iso_tsap', 'echo', 'klogin', 'link', 'sunrpc', 'login', 'kshell',
+                 'sql_net', 'time', 'hostnames', 'exec', 'ntp_u', 'discard', 'nntp', 'courier',
+                 'ctf', 'ssh', 'daytime', 'shell', 'netstat', 'pop_3', 'nnsp', 'IRC', 'pop_2',
+                 'printer', 'tim_i', 'pm_dump', 'red_i', 'netbios_ssn', 'rje', 'X11', 'urh_i',
                  'http_8001']
 
     # Listado de flags
@@ -60,12 +60,22 @@ def main():
     data = data.replace(Clase1, 1)
     data = data.replace(Clase2, 2)
     data = data.replace(Clase3, 3)
+    # print unicos  de columna 1 2 3 
+    print(data[1].unique())
+    print(data[2].unique())
+    print(data[3].unique())
+
     for i in range(len(protocolos)):
         data = data.replace(protocolos[i], i+1)
     for i in range(len(servicios)):
         data = data.replace(servicios[i], i+1)
     for i in range(len(flags)):
         data = data.replace(flags[i], i+1)
+    # Paso 1.2: Eliminar ultima columna
+    data = data.drop(data.columns[42], axis=1)
+
+    # Paso 1.3: Crear archivo Data.csv
+    data.to_csv('DATA/Data.csv', index=False)
     
 
     # print primera fila 
