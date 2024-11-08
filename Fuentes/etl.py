@@ -11,7 +11,7 @@ import pandas as pd
 
 def config():
     config = pd.read_csv(
-        r'D:\Codigos\Universidad\Sistema Distribuido\github\Tarea1_Distribuidos\config.csv', header=None)
+        r'config.csv', header=None)
     parameters = config.values
     # Línea 1: Dimensión embebida (m) de DE.
     m = parameters[0][0]
@@ -37,7 +37,7 @@ def config():
 def main():
     config()
     data = pd.read_csv(
-        r'D:\Codigos\Universidad\Sistema Distribuido\github\Tarea1_Distribuidos\DATA\KDDTrain.txt', header=None)
+        r'DATA/KDDTrain.txt', header=None)
     # Listados de las clases
     Clase1 = ['normal']
     Clase2 = ['neptune', 'teardrop', 'smurf', 'pod', 'back', 'land', 'apache2',
@@ -97,11 +97,11 @@ def main():
     # Paso 3.2 : Crear Dataclass.csv
     # Paso 3.2.1: importar archivos idx_classX.csv
     idx_class1 = pd.read_csv(
-        r'D:\Codigos\Universidad\Sistema Distribuido\github\Tarea1_Distribuidos\DATA\idx_class1.csv', header=None)
+        r'DATA/idx_class1.csv', header=None)
     idx_class2 = pd.read_csv(
-        r'D:\Codigos\Universidad\Sistema Distribuido\github\Tarea1_Distribuidos\DATA\idx_class2.csv', header=None)
+        r'DATA/idx_class2.csv', header=None)
     idx_class3 = pd.read_csv(
-        r'D:\Codigos\Universidad\Sistema Distribuido\github\Tarea1_Distribuidos\DATA\idx_class3.csv', header=None)
+        r'DATA/idx_class3.csv', header=None)
     # Paso 3.2.2: Crear Dataclass.csv
     dataclass = pd.DataFrame()
     print(idx_class1[0][1]-1)
@@ -111,10 +111,12 @@ def main():
         dataclass = pd.concat([dataclass, data.iloc[[idx_class2[0][i]-1]]])
     for i in range(len(idx_class3)):
         dataclass = pd.concat([dataclass, data.iloc[[idx_class3[0][i]-1]]])
+
+
+
     # # Paso 3.2.3: Crear Dataclass.csv
     dataclass.to_csv('DATA/Dataclass.csv', index=False, header=False)
 
-    # dataclass.to_csv('DATA/Dataclass.csv', index=False, header=False)
     # print primera fila
 
 
