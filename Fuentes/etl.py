@@ -25,7 +25,12 @@ def config():
     sigma = parameters[4][0]
     # Línea 6: Top-K variables menos redundantes.
     vMRK = parameters[5][0]
-
+    print('m:', m)
+    print('tau:', tau)
+    print('c:', c)
+    print('vRK:', vRK)
+    print('sigma:', sigma)
+    print('vMRK:', vMRK)
 # Beginning ...
 
 
@@ -52,18 +57,14 @@ def main():
                  'http_8001']
 
     # Listado de flags
-    flags = ['SF', 'S0', 'REJ', 'RSTR', 'SH', 'RSTO', 'S1', 'RSTOS0', 'S3', 'S2', 'OTH']
-
+    flags = ['SF', 'S0', 'REJ', 'RSTR', 'SH',
+             'RSTO', 'S1', 'RSTOS0', 'S3', 'S2', 'OTH']
 
     # Paso 1
     # Paso 1.1: Transformar los datos originales en formato numérico.
     data = data.replace(Clase1, 1)
     data = data.replace(Clase2, 2)
     data = data.replace(Clase3, 3)
-    # print unicos  de columna 1 2 3 
-    print(data[1].unique())
-    print(data[2].unique())
-    print(data[3].unique())
 
     for i in range(len(protocolos)):
         data = data.replace(protocolos[i], i+1)
@@ -75,24 +76,46 @@ def main():
     data = data.drop(data.columns[42], axis=1)
 
     # Paso 1.3: Crear archivo Data.csv
-    data.to_csv('DATA/Data.csv', index=False)
+    data.to_csv('DATA/Data.csv', index=False, header=False)
 
     # Paso 3
-    # Crear tres nuevos archivos de datos, uno para cada clase.
-    clasese1 = data[data[41] == 1]
+    # Paso 3.1: Crear tres nuevos archivos de datos, uno para cada clase.
+    #
+    clases1 = data[data[41] == 1]
+    # eliminar la columna 41
+    clases1 = clases1.drop(clases1.columns[41], axis=1)
     # Crear classe1.csv
-    clasese1.to_csv('DATA/classe1.csv', index=False)
+    clases1.to_csv('DATA/classe1.csv', index=False, header=False)
     # Crear classe2.csv
-    clasese2 = data[data[41] == 2]
-    clasese2.to_csv('DATA/classe2.csv', index=False)
+    clases2 = data[data[41] == 2]
+    clases2 = clases2.drop(clases2.columns[41], axis=1)
+    clases2.to_csv('DATA/classe2.csv', index=False, header=False)
     # Crear classe3.csv
-    clasese3 = data[data[41] == 3]
-    clasese3.to_csv('DATA/classe3.csv', index=False)
-    
-    # print primera fila 
-    print(data.head(1))
+    clases3 = data[data[41] == 3]
+    clases3 = clases3.drop(clases3.columns[41], axis=1)
+    clases3.to_csv('DATA/classe3.csv', index=False, header=False)
+    # Paso 3.2 : Crear Dataclass.csv
+    # Paso 3.2.1: importar archivos idx_classX.csv
+    idx_class1 = pd.read_csv(
+        r'D:\Codigos\Universidad\Sistema Distribuido\github\Tarea1_Distribuidos\DATA\idx_class1.csv', header=None)
+    idx_class2 = pd.read_csv(
+        r'D:\Codigos\Universidad\Sistema Distribuido\github\Tarea1_Distribuidos\DATA\idx_class2.csv', header=None)
+    idx_class3 = pd.read_csv(
+        r'D:\Codigos\Universidad\Sistema Distribuido\github\Tarea1_Distribuidos\DATA\idx_class3.csv', header=None)
+    # Paso 3.2.2: Crear Dataclass.csv
+    dataclass = pd.DataFrame()
+    print(idx_class1[0][1]-1)
+    for i in range(len(idx_class1)):
+        dataclass = pd.concat([dataclass, data.iloc[[idx_class1[0][i]-1]]])
+    for i in range(len(idx_class2)):
+        dataclass = pd.concat([dataclass, data.iloc[[idx_class2[0][i]-1]]])
+    for i in range(len(idx_class3)):
+        dataclass = pd.concat([dataclass, data.iloc[[idx_class3[0][i]-1]]])
+    # # Paso 3.2.3: Crear Dataclass.csv
+    dataclass.to_csv('DATA/Dataclass.csv', index=False, header=False)
 
-
+    # dataclass.to_csv('DATA/Dataclass.csv', index=False, header=False)
+    # print primera fila
 
 
 if __name__ == '__main__':
